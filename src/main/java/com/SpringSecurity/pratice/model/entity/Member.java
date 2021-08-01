@@ -2,6 +2,7 @@ package com.SpringSecurity.pratice.model.entity;
 
 import lombok.Builder;
 import lombok.Generated;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;
@@ -9,13 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Member {
-    @Generated
+    @Id @Generated
     Long idx;
 
-    @Id @Column
+    @Column
     String email;
 
     @Column
