@@ -1,8 +1,9 @@
-package com.SpringSecurity.pratice.config;
+package com.SpringSecurity.pratice.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity(debug = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private AuthenticationProvider authenticationProvider;
+
+    public WebSecurityConfiguration(AuthenticationProvider authenticationProvider){
+        this.authenticationProvider = authenticationProvider;
+    }
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.csrf().and()
@@ -29,7 +36,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception{
-        web.ignoring().antMatchers("/**api-docs","/swagger-resources/**","/swagger-ui.html","/webjars/**","/swagger/**","/configuration/ui","/api/**","/h2-console/**");
+        web.ignoring()
+        .antMatchers("/**api-docs")
+        .antMatchers("/swagger-resources/**")
+        .antMatchers("/swagger-ui.html")
+        .antMatchers("/webjars/**")
+        .antMatchers("/swagger/**")
+        .antMatchers("/configuration/ui")
+        .antMatchers("/h2-console/**")
+        .antMatchers("/api/**");
     }
     @Bean
     public PasswordEncoder passwordEncoder() {return new BCryptPasswordEncoder(12);
